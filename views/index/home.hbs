@@ -1,0 +1,82 @@
+<div class="row ml-4 mt-5">
+    <div class="col-sm-3 ">
+        <div class="card bg-light">
+            <div class="card-body">
+                <img src={{ img }} width="75px" height="75px" class="img-thumbnail rounded-circle border-white"
+                    alt="Profile Picture" />
+                <span class="font-weight-bold"><a href="{{user_id}}/profile">{{ name }}</a></span>
+                <table class="table table-sm table-borderless mt-3">
+                    <thead>
+                        <tr>
+                            <th scope="col"><a href="">Tweets</a></th>
+                            <th scope="col"><a href="">Following</a></th>
+                            <th scope="col"><a href="">Followers</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center" scope="row">1</td>
+                            <td class="text-center">50</td>
+                            <td class="text-center">10</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-5">
+        {{#each data}}
+        <div class="card mb-4 tweet">
+            <div class="card-body bg-light pb-1">
+                <img src="{{ tweet.user.img }}" width="60px" height="60px"
+                    class="img-thumbnail rounded-circle border-white" alt="Profile Picture" />
+                <span class="font-weight-bold"><a href="{{tweet.user._id}}/profile">{{ tweet.user.name }}</a></span>
+                <span>{{format_date tweet.created_at}}</span>
+                <p class="card-text pl-5 ">{{{link_hashtags tweet.tweet}}}</p>
+                <hr>
+                <button id="comments-btn" class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                    data-target="#c{{@index}}" aria-expanded="true" aria-controls="collapseOne">
+                    <h4>Read Comments</h4>
+                </button>
+
+            </div>
+            <div class="accordion" id="accordionExample">
+                <div id="c{{@index}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        {{#each comment}}
+                        <div class="card-body bg-light pb-1 pt-1 ml-4">
+                            <img src="{{ user.img }}" width="60px" height="60px"
+                                class="img-thumbnail rounded-circle border-white" alt="Profile Picture" />
+                            <span class="font-weight-bold"><a href="{{user._id}}/profile">{{ user.name }}</a></span>
+                            <p class="card-text pl-5 ">{{{link_hashtags comment}}}</p>
+                            <hr>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            <form method="POST" action="/tweet/comment" class="bg-light">
+                <div class="form-group">
+                    <textarea name="comment" class="ml-4 pt-1 col-11 form-control" placeholder="Write a comment..."
+                        id="exampleFormControlTextarea1" rows="2"></textarea>
+                    <input hidden name="tweet" value={{tweet._id}} type="text">
+                    <input hidden name="user" value={{../ user_id}} type="text">
+                </div>
+                <button type="submit" class="ml-4 pt-1 mb-3 btn btn-primary">Reply</button>
+            </form>
+        </div>
+        {{/each}}
+    </div>
+    <div class="col-sm-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                <h3> Top 10 Trends </h3>
+            </div>
+            <ul class="list-group list-group-flush">
+                {{#each hashtags}}
+                <li class="list-group-item"><a href="/{{remove_hash_symbol hashtag}}">{{hashtag}}</a></li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</div>

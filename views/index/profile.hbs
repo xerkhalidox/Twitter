@@ -1,0 +1,72 @@
+<div class="row ml-5 mt-5">
+    <div class="col-sm-3 ">
+        <div class="card bg-light">
+            <div class="card-body">
+                <img src={{ data.0.tweet.user.img }} width="75px" height="75px"
+                    class="img-thumbnail rounded-circle border-white" alt="Profile Picture" />
+                <span class="font-weight-bold"><a href="">{{ data.0.tweet.user.name }}</a></span>
+                <table class="table table-sm table-borderless mt-3 ml-2">
+                    <thead>
+                        <tr>
+                            <th scope="col"><a href="">Tweets</a></th>
+                            <th scope="col"><a href="">Following</a></th>
+                            <th scope="col"><a href="">Followers</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center" scope="row">1</td>
+                            <td class="text-center">50</td>
+                            <td class="text-center">10</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" style="display: block;" class="mx-auto btn btn-dark">Follow</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-6">
+        {{#each data}}
+        <div class="card mb-4 tweet">
+            <div class="card-body bg-light pb-1">
+                <img src="{{ tweet.user.img }}" width="60px" height="60px"
+                    class="img-thumbnail rounded-circle border-white" alt="Profile Picture" />
+                <span class="font-weight-bold"><a href="">{{ tweet.user.name }}</a></span>
+                <p class="card-text pl-5 ">{{tweet.tweet}}</p>
+                <hr>
+                <button id="comments-btn" class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                    data-target="#c{{@index}}" aria-expanded="true" aria-controls="collapseOne">
+                    <h4>Read Comments</h4>
+                </button>
+
+            </div>
+            <div class="accordion" id="accordionExample">
+                <div id="c{{@index}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        {{#each comment}}
+                        <div class="card-body bg-light pb-1 pt-1 ml-4">
+                            <img src="{{ user.img }}" width="60px" height="60px"
+                                class="img-thumbnail rounded-circle border-white" alt="Profile Picture" />
+                            <span class="font-weight-bold"><a href="">{{ user.name }}</a></span>
+                            <p class="card-text pl-5 ">{{comment}}</p>
+                            <hr>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            <form method="POST" action="/tweet/comment" class="bg-light">
+                <div class="form-group">
+                    <textarea name="comment" class="ml-4 pt-1 col-11 form-control" placeholder="Write a comment..."
+                        id="exampleFormControlTextarea1" rows="2"></textarea>
+                    <input hidden name="tweet" value={{_id}} type="text">
+                    <input hidden name="user" value={{../ user_id}} type="text">
+                </div>
+                <button type="submit" class="ml-4 pt-1 mb-3 btn btn-primary">Reply</button>
+            </form>
+        </div>
+        {{/each}}
+    </div>
+</div>
+<script src="/javascripts/comments_btn.js"></script>
