@@ -11,6 +11,9 @@ const get_following_tweets = async (req, res) => {
             .sort({ "created_at": -1 })
             .populate('user')
             .lean();
+        let num_of_tweets = await Tweet.find({ user: req.user.id })
+            .lean();
+        num_of_tweets = num_of_tweets.length;
         const comments = await Promise.all(commment_promises(tweets));
         //merge comments with their tweets
         const merged = merge(tweets, comments);
@@ -19,7 +22,12 @@ const get_following_tweets = async (req, res) => {
             .sort({ "numberOfAppears": -1 })
             .limit(10)
             .lean();
-        res.render("index/home", { "tweets": tweets, "data": merged, "hashtags": hashtags });
+        res.render("index/home", {
+            "tweets": tweets,
+            "data": merged,
+            "hashtags": hashtags,
+            'tweetsNumber': num_of_tweets
+        });
     } catch (err) {
         console.log(err);
         res.render("errors/500");

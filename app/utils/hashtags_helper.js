@@ -3,7 +3,7 @@ const Hashtag = require("../models/hashtag");
 //convert hashtags to link by putting them in <a> tag.
 const link_hashtags = (str) => {
     return str.replace(/#[A-Z]*/gi, (match) => {
-        return `<a href="#">${match}</a>`;
+        return `<a href="/trends/${match.substring(1)}">${match}</a>`;
     });
 };
 
@@ -13,9 +13,9 @@ const extract_hashtags = (str, id) => {
     let hashtags = new Map();
     str.replace(/#[A-Z]*/gi, (match) => {
         if (hashtags.get(match)) {
-            hashtags.set(match, { numberOfAppears: hashtags.get(match) + 1, id: id });
+            hashtags.set(match, { numberOfAppears: hashtags.get(match) + 1, id: [...hashtags.get(match).id, id] });
         } else {
-            hashtags.set(match, { numberOfAppears: 1, id: id });
+            hashtags.set(match, { numberOfAppears: 1, id: [id] });
         }
     });
     return hashtags;
@@ -31,12 +31,14 @@ const hashtag_promises = (hashtags) => {
                 if (_hashtag) {
                     return await Hashtag.updateOne(
                         { hashtag: key },
+                        { $push: { tweets: value.id } },
                         { $inc: { numberOfAppears: value.numberOfAppears } }
                     );
                 } else {
                     let _hashtag = await Hashtag.create({
                         hashtag: key,
-                        numberOfAppears: value.numberOfAppears
+                        numberOfAppears: value.numberOfAppears,
+                        tweets: value.id
                     });
                     return _hashtag.save();
                 }

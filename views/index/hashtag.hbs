@@ -1,0 +1,13 @@
+<div class="col-sm-5 container mt-4">
+    {{#each tweets}}
+    <div class="card mb-4 tweet">
+        <div class="card-body bg-light pb-1">
+            <img src="{{ user.img }}" width="60px" height="60px" class="img-thumbnail rounded-circle border-white"
+                alt="Profile Picture" />
+            <span class="font-weight-bold"><a href="{{user._id}}/profile">{{ user.name }}</a></span>
+            <span>{{format_date tweet.created_at}}</span>
+            <p class="card-text pl-5 mb-3">{{{link_hashtags tweet}}}</p>
+        </div>
+    </div>
+    {{/each}}
+</div>

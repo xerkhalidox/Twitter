@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema({
     "hashtag": String,
     "numberOfAppears": Number,
-    "tweet": {
-        type: [mongoose.Schema.Types.ObjectId],
+    "tweets": [{
+        type: mongoose.Schema.Types.ObjectId,
         ref: "tweet"
-    },
+    }],
     "first_appears": {
         type: Date,
         default: Date.now
