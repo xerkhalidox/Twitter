@@ -7,7 +7,7 @@ const is_followed = async (who, whom) => {
     if (who == whom) {
         return '';
     } else {
-        const follow = Follow.find({
+        const follow = await Follow.count({
             who_follow: who,
             follow_whom: whom
         });
@@ -23,7 +23,6 @@ const is_followed = async (who, whom) => {
 const profile = async (req, res) => {
     user_id = req.params.userId;
     const follow_btn_value = await is_followed(req.user._id, user_id);
-    console.log(user_id, req.user);
     const tweets = await Tweet
         .find({ user: user_id })
         .populate("user")

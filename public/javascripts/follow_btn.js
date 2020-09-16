@@ -18,7 +18,7 @@ const request = (operation, method, innetHTML) => {
 
 button.addEventListener('click', () => {
     if (button.innerHTML == 'Follow') {
-        request('follow', 'post', 'unFollow');
+        request('follow', 'post', 'Unfollow');
     } else {
         request('unfollow', 'delete', 'Follow');
     }
