@@ -32,7 +32,7 @@ const hashtag_promises = (hashtags) => {
                     return await Hashtag.updateOne(
                         { hashtag: key },
                         { $push: { tweets: value.id } },
-                        { $inc: { numberOfAppears: value.numberOfAppears } }
+                        { $inc: { numberOfAppears: 1 } }
                     );
                 } else {
                     let _hashtag = await Hashtag.create({

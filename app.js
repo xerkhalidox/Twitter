@@ -1,14 +1,15 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const dotenv = require('dotenv');
 const passport = require('passport');
 const auth = require('./app/routes/auth');
 const home = require('./app/routes/home');
 const tweet = require('./app/routes/tweet');
 const comment = require("./app/routes/comment");
+const follow = require('./app/routes/follow');
 const global_user = require('./app/middlewares/global_user');
 const { is_user } = require("./app/middlewares/is_authenticated");
 const session = require('express-session');
@@ -17,8 +18,9 @@ const mongoose = require('mongoose');
 const hbs = require('express-handlebars');
 const { link_hashtags, remove_hash_symbol } = require("./app/utils/hashtags_helper");
 const format_date = require("./app/utils/format_date");
-var app = express();
+const app = express();
 const db_connection = require('./config/db');
+
 dotenv.config({ path: './config/.env' });
 require('./config/passport')(passport);
 db_connection();
@@ -29,6 +31,7 @@ app.engine('.hbs', hbs({
   defaultLayout: 'main_layout', extname: '.hbs',
   helpers: { link_hashtags, format_date, remove_hash_symbol }
 }));
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -40,11 +43,14 @@ app.use(session({
   saveUninitialized: false,
   store: new mongoStore({ mongooseConnection: mongoose.connection })
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use('/', auth);
 app.use(is_user, global_user);
 app.use('/', home);
+app.use(/\/(un)?follow/, follow);  //to match follow or unfollow route
 app.use('/tweet', tweet);
 app.use('/tweet', comment);
 // catch 404 and forward to error handler

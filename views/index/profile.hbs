@@ -21,7 +21,9 @@
                         </tr>
                     </tbody>
                 </table>
-                <button type="button" style="display: block;" class="mx-auto btn btn-dark">Follow</button>
+                <input hidden id="whom" type="text" value={{data.0.tweet.user._id}}>
+                <button id="follow" type="button" style="display: block;"
+                    class="mx-auto btn btn-dark">{{Follow}}</button>
             </div>
         </div>
 
@@ -69,4 +71,4 @@
         {{/each}}
     </div>
 </div>
-<script src="/javascripts/comments_btn.js"></script>
+<script src="/javascripts/follow_btn.js"></script>
