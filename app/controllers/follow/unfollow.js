@@ -4,7 +4,7 @@ const unfollow_user = async (req, res) => {
     try {
         const who_will_unfollow = req.user;
         const unfollow_whom = req.params.userId;
-        const user = Follow.find({
+        const user = await Follow.find({
             follow_whom: unfollow_whom
         });
         if (!user) {

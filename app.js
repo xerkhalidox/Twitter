@@ -10,6 +10,7 @@ const home = require('./app/routes/home');
 const tweet = require('./app/routes/tweet');
 const comment = require("./app/routes/comment");
 const follow = require('./app/routes/follow');
+const notification = require("./app/routes/notification");
 const global_user = require('./app/middlewares/global_user');
 const { is_user } = require("./app/middlewares/is_authenticated");
 const session = require('express-session');
@@ -50,6 +51,7 @@ app.use(passport.session());
 app.use('/', auth);
 app.use(is_user, global_user);
 app.use('/', home);
+app.use('/', notification);
 app.use(/\/(un)?follow/, follow);  //to match follow or unfollow route
 app.use('/tweet', tweet);
 app.use('/tweet', comment);
