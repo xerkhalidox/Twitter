@@ -10,14 +10,13 @@ const follow_user = async (req, res) => {
         if (!user) {
             res.render('errors/404');
         }
-        console.log(user);
         const new_relation = await Follow.create({
             who_follow: who_will_follow,
             follow_whom: follow_whom
         });
         await new_relation.save();
         const new_notification = await Notification.create({
-            notification: `${user.name} has followed you`,
+            notification: `<a href='/${user._id}/profile'>${user.name}</a> has followed you.`,
             user: follow_whom
         });
         new_notification.save();
