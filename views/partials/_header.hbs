@@ -2,7 +2,9 @@
   <ul class="navbar-nav ml-4">
     <li class="nav-item"><a class="navbar-brand" href="/">Home</a></li>
     <li class="nav-item"><a class="navbar-brand" href="/{{user_id}}/profile">Profile</a></li>
-    <li class="nav-item"><a class="navbar-brand" href="/">Notifications</a></li>
+    <li class="nav-item"><a id="notification" value="{{user_id}}" class="navbar-brand"
+        href="/notifications">Notifications</a></li>
   </ul>
   <a class="navbar-brand ml-auto" href="/auth/logout">Logout</a>
 </nav>
+<script src="/javascripts/notifications.js"></script>

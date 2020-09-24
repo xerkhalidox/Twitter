@@ -1,0 +1,12 @@
+<div class="m-4">
+    <h5>You have <strong>{{notifications.length}}</strong> new notifications.</h5>
+</div>
+<table class="table table-hover w-50 m-4">
+    <tbody>
+        {{#each notifications}}
+        <tr>
+            <td>{{{notification}}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
